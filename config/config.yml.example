@@ -1,0 +1,25 @@
+---
+
+agilezen:
+  api_token: AGLILEZEN_API_TOKEN # One of your API tokens for AgileZen (https://agilezen.com/settings#developer)
+
+jabber:
+  jid: user@domain.com/resource
+  password: "password"
+  # host: talk.google.com # for GTalk or Google Apps
+  # port: 5222 # for Google Talk, use 5222, even though Google's online instructions say 5223, there is some issue with Blather and SSL
+  # alert_friend: friend@domain.com # an optional Jabber contact to which to communicate status alerts (such as "I'm online and waiting for notifications!")
+
+flowdock: # these are handed to the Flowdock API Client gem (https://github.com/flowdock/flowdock-api/blob/master/lib/flowdock.rb#L13)
+  source: AgileZen-Flowdock Relay
+  from:
+    name: AgileZen
+    address: user@domain.com # this will be used by Flowdock for the Gravatar
+
+relays: # Add as many relays as you'd like. Each one maps an AgileZen project to a Flow
+  name: # use any name you'd like; only used for error messages, etc
+    agilezen_id: PROJECT_ID # The project ID from AgileZen (look at the URL for your project)
+    flow_token: FLOW_TOKEN # The Flow's API token (look in Setings > Team Inbox)
+  # name2:
+  #   agilezen_id: PROJECT_ID
+  #   flow_token: FLOW_TOKEN

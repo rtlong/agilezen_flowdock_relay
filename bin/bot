@@ -1,0 +1,75 @@
+#!/usr/bin/env ruby
+
+begin
+  # Require the preresolved locked set of gems.
+  require File.expand_path('../.bundle/environment', __FILE__)
+rescue LoadError
+  # Fallback on doing the resolve at runtime.
+  require "rubygems"
+  require "bundler"
+
+  Bundler.require(:default)
+end
+
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
+
+require 'yaml'
+require 'active_support/all'
+require 'agilezen_flowdock_relay/errors'
+
+def load_config(file)
+  if File.file?(file)
+    c = HashWithIndifferentAccess.new(YAML::load_file(file))
+  else
+    raise NotConfiguredError, "No config file found at #{file}"
+  end
+
+  unless c[:relays] and c[:relays].is_a?(Hash) and c[:relays].any?
+    display_usage
+    raise NotConfiguredError, "No relays are correctly configured!"
+  end
+
+  return c
+end
+
+def check_arguments
+  ARGV.any? or display_usage_and_exit
+
+  unknown_relays = ARGV - CONFIG[:relays].keys
+  if unknown_relays.any?
+    display_usage
+    puts "\n" << unknown_relays.to_sentence << ' ' <<
+         (unknown_relays.length == 1 ? 'is not a known relay.' : 'are not known relays.')
+    exit
+  end
+end
+
+def display_usage
+    puts <<-"END".strip_heredoc
+    Usage: agilezen_flowdock_relay [RELAY_NAME]...
+
+    Specify your relays in config/config.yml.
+  END
+
+  if CONFIG[:relays] then
+    puts "\nAvailable relays are:"
+    CONFIG[:relays].keys.each do |r|
+      puts " - #{r}"
+    end
+  end
+end
+
+def display_usage_and_exit
+  display_usage
+  exit
+end
+
+
+
+
+CONFIG = load_config File.join(File.dirname(__FILE__), '..', 'config', 'config.yml')
+check_arguments
+
+require 'agilezen_flowdock_relay'
+
+AgilezenFlowdockRelay.new(*ARGV.map(&:to_sym)).run

@@ -1,0 +1,1 @@
+class NotConfiguredError < StandardError; end
