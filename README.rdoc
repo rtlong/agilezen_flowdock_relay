@@ -1,9 +1,37 @@
 = agilezen_flowdock_relay
 
-Description goes here.
+== Why?
+
+Our team uses AgileZen and Flowdock. Flowdock is great... we have aggregated notifications from all
+the sources (Github, deployment servers, Twitter, etc), but unfortunately AgileZen doesn't directly
+support any means of pushing notifications to Flowdock, except email.
+
+We set up email notifications from AgileZen into the flow, but I quickly realized the problem with
+this approach. The notifications are meant for users, not projects. Once I added a new project to
+AgileZen and started working on it, all the notifications for that were pumped into my flow for the
+other project.
+
+== About
+
+Now, I could set up an email filter to fix this, but I chose to write a Jabber bot
+that listens for messages from AgileZen and intelligently constructs notifications for only the
+actions we care about, then send them to Flowdock through its API instead of email.
+
+The other benefit to this approach is that I have ultimate control over how the message appears in
+the group inbox. I was getting really annoyed with seeing "[project-name]" on every notification.
+
+== Usage
+
+Usage is simple:
+
+* Check out the code
+* Add your credentials to config/credentials.yml (AgileZen API Key and project ID, Flowdock flow API Key, Jabber username/password)
+* Run bin/bot.rb
+
+It needs to be run somewhere that has internet access and Jabber connectivity, obviously.
 
 == Contributing to agilezen_flowdock_relay
- 
+
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
 * Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it
 * Fork the project
