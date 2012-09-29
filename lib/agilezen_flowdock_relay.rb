@@ -25,11 +25,16 @@ class AgilezenFlowdockRelay
     # Any message from AgileZen, process and relay to Flowdock
     jabber.message :chat?, :body, :from => /notifications@jabber.agilezen.com/ do |m|
 
-      if notification = NotificationParser.parse(m.xhtml.strip)
+      if n = NotificationParser.parse(m.xhtml.strip) and flow = @relays[n[:project_id]].presence[:flow]
+        n[:story] = agile_zen.project_story(notification[:project_id], n[:story_id], with: 'everything')
+        %w[story_snippet].each { |k| notification.delete(k) }
         p notification if CONFIG[:debug]
+
       else
-        puts "[Error] Unhandled notification:"
-        p m
+        if notification.nil?
+          puts "[Error] Unhandled notification:"
+          p m
+        end
       end
 
     end

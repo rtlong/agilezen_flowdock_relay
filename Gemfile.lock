@@ -1,6 +1,7 @@
 GEM
   remote: http://rubygems.org/
   specs:
+    ZenTest (4.6.2)
     activesupport (3.0.11)
     addressable (2.2.6)
     agilezen (0.2.0)
@@ -8,6 +9,8 @@ GEM
       faraday_middleware (~> 0.3.0)
       hashie (~> 0.4.0)
       multi_json (~> 0.0.5)
+    autotest (4.4.6)
+      ZenTest (>= 4.4.1)
     blather (0.5.9)
       activesupport (>= 3.0.7)
       eventmachine (>= 0.12.6)
@@ -50,9 +53,10 @@ PLATFORMS
 DEPENDENCIES
   activesupport (>= 3.0)
   agilezen (>= 0.2.0)
+  autotest
   blather (>= 0.5.8)
-  bundler (~> 1.0.0)
+  bundler
   flowdock (>= 0.1.3)
   i18n
   rcov
-  rspec (~> 2.3.0)
+  rspec

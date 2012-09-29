@@ -19,7 +19,7 @@ class AgilezenFlowdockRelay::JabberClient
       write_to_stream s.approve!
     end
 
-    if CONFIG[:debug] && false
+    if CONFIG[:debug]
       message do |m|
         puts "[debug] " << m.inspect
         puts "---"
